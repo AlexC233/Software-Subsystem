@@ -14,12 +14,11 @@ led.value = False
 
 # configure the edge counter
 # following example from https://docs.circuitpython.org/en/latest/shared-bindings/countio/index.html#countio.Edge
-edgeCounter = countio.Counter(board.GP15, edge=countio.Edge.FALL)
+edgeCounter = countio.Counter(board.GP15, edge=countio.Edge.RISE)
 print("Edge Counter Set")
 
 while True:
     # if a edge is detected, toggle the LED
-    if edgeCounter.count > 0:
-        print(edgeCounter.count)
+    if edgeCounter.count >= 1:
         led.value = not led.value
         edgeCounter.reset()
