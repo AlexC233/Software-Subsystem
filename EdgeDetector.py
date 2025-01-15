@@ -1,6 +1,6 @@
 '''
 File to test edge dectection.
-On each negative edge of the button, the LED will toggle on and off.
+On each positive edge of the button, the LED will toggle on and off.
 '''
 import board
 import digitalio
