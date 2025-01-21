@@ -17,9 +17,6 @@ blue.value = False
 # configure the edge counter
 edgeCounter = countio.Counter(board.GP13, edge=countio.Edge.RISE)
 
-button = digitalio.DigitalInOut(board.GP16)
-button.direction = digitalio.Direction.INPUT
-
 '''
 Edge Counter Function
 returns 1 if positive edge detected
@@ -39,19 +36,17 @@ State Encoding:
 state = 0 # initial state is Off
 while True:
     if edge():
-        time.sleep(0.01)
-        if button.value:
-            state = (state + 1) % 3 # increment state. If state is 2, go back to 0
-            if state == 0: # Off
-                red.value = False
-                green.value = False
-                blue.value = False
-            elif state == 1: # People
-                red.value = True
-                green.value = True
-                blue.value = True
-            elif state == 2: # Plants
-                red.value = True
-                green.value = False
-                blue.value = True
-            print("State: ", state)
+        state = (state + 1) % 3 # increment state. If state is 2, go back to 0
+        if state == 0: # Off
+            red.value = False
+            green.value = False
+            blue.value = False
+        elif state == 1: # People
+            red.value = True
+            green.value = True
+            blue.value = True
+        elif state == 2: # Plants
+            red.value = True
+            green.value = False
+            blue.value = True
+        print("State: ", state)
