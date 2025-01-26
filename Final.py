@@ -1,7 +1,9 @@
+'''
+Final code for the Raspberry Pi Pico
+'''
 import board
 import digitalio
 import countio
-import time
 # configure the RED LED to GP0
 red = digitalio.DigitalInOut(board.GP0)
 red.direction = digitalio.Direction.OUTPUT
@@ -49,4 +51,3 @@ while True:
             red.value = True
             green.value = False
             blue.value = True
-        print("State: ", state)
