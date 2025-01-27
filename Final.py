@@ -3,7 +3,7 @@ Final code for the Raspberry Pi Pico
 '''
 import board
 import digitalio
-import countio
+import time
 # configure the RED LED to GP0
 red = digitalio.DigitalInOut(board.GP0)
 red.direction = digitalio.Direction.OUTPUT
@@ -16,19 +16,24 @@ green.value = False
 blue = digitalio.DigitalInOut(board.GP2)
 blue.direction = digitalio.Direction.OUTPUT
 blue.value = False
-# configure the edge counter
-edgeCounter = countio.Counter(board.GP13, edge=countio.Edge.RISE)
+# configure the button to GP15 with a pull-up resistor
+# thus, the button will read True when not pressed
+button = digitalio.DigitalInOut(board.GP15)
+button.direction = digitalio.Direction.INPUT
+button.pull = digitalio.Pull.UP
 
 '''
-Edge Counter Function
-returns 1 if positive edge detected
-returns 0 if no positive edge detected
+Negative Edge Function
+returns 1 if negative edge detected
+returns 0 if no negative edge detected
 '''
 def edge():
-    if edgeCounter.count >= 1:
-        edgeCounter.reset()
-        return 1
-    return 0
+    current_state = button.value # read the current state of the button
+    if current_state == False: # check if the button is not pressed
+        time.sleep(0.1) # wait for a short time
+        if button.value == True: # check if the button is pressed, causing a negative edge
+            return 1
+    return 0 # otherwise, no negative edge would have occurred
 '''
 State Encoding:
 0: Off
